@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import notesContext from "../context/notes/NoteContext";
 import Noteitem from "./Noteitem";
 import Addnote from "./Addnote";
+import { useNavigate } from "react-router-dom";
 
 // IMP:- notes refers to vector<Note> : i.e. all the note objects;
-export default function Notes() {
+export default function Notes(props) {
   // using context
   const context = useContext(notesContext);
+  let history = useNavigate();
 
   // destructuring notes from context
   const { notes, getNotes, editNote } = context;
@@ -14,7 +16,11 @@ export default function Notes() {
   const refClose = useRef(null);
 
   useEffect(() => {
-    getNotes();
+    if (localStorage.getItem("token")) {
+      getNotes();
+    } else {
+      history("/login");
+    }
     // eslint-disable-next-line
   }, []);
 
@@ -44,6 +50,7 @@ export default function Notes() {
     console.log("updating the note : ", note);
     editNote(note.id, note.etitle, note.edescription, note.etag);
     refClose.current.click();
+    props.showAlert("Note updated successfully", "success");
   };
 
   const checkNote = () => {
@@ -52,7 +59,7 @@ export default function Notes() {
 
   return (
     <>
-      <Addnote />
+      <Addnote showAlert={props.showAlert} />
       <button
         type="button"
         className="btn btn-primary d-none"
@@ -153,7 +160,12 @@ export default function Notes() {
           ? "No notes to display"
           : notes.map((note) => {
               return (
-                <Noteitem key={note._id} updateNote={updateNote} note={note} />
+                <Noteitem
+                  key={note._id}
+                  updateNote={updateNote}
+                  note={note}
+                  showAlert={props.showAlert}
+                />
               );
             })}
       </div>

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import notesContext from "../context/notes/NoteContext";
 
-export default function Addnote() {
+export default function Addnote(props) {
   // using context
   const context = useContext(notesContext);
   // destructuring notes from context
@@ -18,6 +18,7 @@ export default function Addnote() {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);
     setNote({ title: "", description: "", tag: "" });
+    props.showAlert("Note added successfully", "success");
   };
 
   const checkNote = () => {

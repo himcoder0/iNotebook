@@ -1,6 +1,7 @@
 import NoteContext from "./NoteContext";
 import { useState } from "react";
 
+// Fetch all notes
 const NoteState = (props) => {
   const host = "http://localhost:5000";
   const notesInitial = [];
@@ -13,8 +14,7 @@ const NoteState = (props) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU4YzE3YmRmMzE2YjY5NTFiNWFkYjgzIn0sImlhdCI6MTcwMzY4MjU5NX0.MeNRmMiMGYgNAEoVXtJibGXGPT3SMh6JrpcYppMuj0I",
+          "auth-token": localStorage.getItem("token"),
         },
       });
 
@@ -23,14 +23,13 @@ const NoteState = (props) => {
       }
 
       const json = await response.json();
-      console.log(json);
       setNotes(json);
     } catch (error) {
       console.error("Error fetching notes:", error.message);
     }
   };
 
-  // // Add a note
+  // Add a note
   const addNote = async (title, description, tag) => {
     // API Call
     const url = `${host}/api/notes/addnote`;
@@ -38,15 +37,12 @@ const NoteState = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU4YzE3YmRmMzE2YjY5NTFiNWFkYjgzIn0sImlhdCI6MTcwMzY4MjU5NX0.MeNRmMiMGYgNAEoVXtJibGXGPT3SMh6JrpcYppMuj0I",
+        "auth-token": localStorage.getItem("token"),
       },
       body: JSON.stringify({ title, description, tag }),
     });
     const note = await response.json();
     setNotes(notes.concat(note));
-    console.log(note);
-    console.log("Added the note");
   };
 
   // // Edit a note
@@ -57,8 +53,7 @@ const NoteState = (props) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU4YzE3YmRmMzE2YjY5NTFiNWFkYjgzIn0sImlhdCI6MTcwMzY4MjU5NX0.MeNRmMiMGYgNAEoVXtJibGXGPT3SMh6JrpcYppMuj0I",
+        "auth-token": localStorage.getItem("token"),
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -86,8 +81,7 @@ const NoteState = (props) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU4YzE3YmRmMzE2YjY5NTFiNWFkYjgzIn0sImlhdCI6MTcwMzY4MjU5NX0.MeNRmMiMGYgNAEoVXtJibGXGPT3SMh6JrpcYppMuj0I",
+        "auth-token": localStorage.getItem("token"),
       },
     });
     const json = await response.json();

@@ -11,6 +11,7 @@ export default function Noteitem(props) {
 
   const handleDeleteNote = (e) => {
     deleteNote(note._id);
+    props.showAlert("Note deleted successfully", "success");
   };
 
   return (

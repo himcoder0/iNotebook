@@ -26,6 +26,7 @@ router.post(
 
     // Check whether the user with same email exists or not
     try {
+      let success = false;
       let user = await User.findOne({ email: req.body.email });
       if (user) {
         return res.status(400).json({
@@ -49,7 +50,8 @@ router.post(
       };
       // returning jwt token after signUp;
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json({ authToken });
+      success = true;
+      res.json({ success, authToken });
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Internal server error.");
@@ -74,6 +76,7 @@ router.post(
     // destructure the password and email entererd by user.
     const { email, password } = req.body;
     try {
+      let success = false;
       // find if enter email exists in database.
       let user = await User.findOne({ email });
       // if doesn't error : enter correct email.
@@ -98,7 +101,8 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json({ authToken });
+      success = true;
+      res.json({ success, authToken });
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Internal server error.");
@@ -109,9 +113,11 @@ router.post(
 // ROUTE 3: Get user details using POST : "/api/auth/getuser". Login required.
 router.post("/getuser", fetchuser, async (req, res) => {
   try {
+    let success = false;
     let userId = req.user.id;
     const user = await User.findById(userId).select("-password");
-    res.send(user);
+    success = true;
+    res.send({ success, user });
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Internal server error.");
