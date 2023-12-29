@@ -6,24 +6,31 @@ const NoteState = (props) => {
   const notesInitial = [];
   const [notes, setNotes] = useState(notesInitial);
 
-  // Get all notes
   const getNotes = async () => {
-    // API Call
-    const url = "http://localhost:5000/api/notes/fetchallnotes/";
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU4YzE3YmRmMzE2YjY5NTFiNWFkYjgzIn0sImlhdCI6MTcwMzY4MjU5NX0.MeNRmMiMGYgNAEoVXtJibGXGPT3SMh6JrpcYppMuj0I",
-      },
-    });
-    const json = await response.json();
-    console.log(json);
-    setNotes(json);
+    try {
+      const url = `${host}/api/notes/fetchallnotes/`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU4YzE3YmRmMzE2YjY5NTFiNWFkYjgzIn0sImlhdCI6MTcwMzY4MjU5NX0.MeNRmMiMGYgNAEoVXtJibGXGPT3SMh6JrpcYppMuj0I",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch notes: ${response.status}`);
+      }
+
+      const json = await response.json();
+      console.log(json);
+      setNotes(json);
+    } catch (error) {
+      console.error("Error fetching notes:", error.message);
+    }
   };
 
-  // Add a note
+  // // Add a note
   const addNote = async (title, description, tag) => {
     // API Call
     const url = `${host}/api/notes/addnote`;
@@ -36,23 +43,13 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-
-    const note = [
-      {
-        _id: "658c591e95433fa84f348d7e7137",
-        user: "658c17bdf316b6951b5adb83",
-        title: title,
-        description: description,
-        tag: tag,
-        date: "2023-11-27T17:04:30.537Z",
-        __v: 0,
-      },
-    ];
+    const note = await response.json();
     setNotes(notes.concat(note));
+    console.log(note);
     console.log("Added the note");
   };
 
-  // Edit a note
+  // // Edit a note
   const editNote = async (id, title, description, tag) => {
     // API Call
     const url = `${host}/api/notes/updatenote/${id}`;
@@ -65,18 +62,23 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    // Edit on client side
-    for (let index = 0; index < notes.length; index++) {
-      const element = notes[index];
-      if (element._id === id) {
-        element.title = title;
-        element.description = description;
-        element.tag = tag;
+    const json = await response.json();
+    console.log(json);
+    // create a deep copy of notes;
+    let newNotes = JSON.parse(JSON.stringify(notes));
+    // Edit on client siden
+    for (let index = 0; index < newNotes.length; index++) {
+      if (newNotes[index]._id === id) {
+        newNotes[index].title = title;
+        newNotes[index].description = description;
+        newNotes[index].tag = tag;
+        break;
       }
     }
+    setNotes(newNotes);
   };
 
-  // Delete a note
+  // // Delete a note
   const deleteNote = async (id, title, description, tag) => {
     // API Call
     const url = `${host}/api/notes/deletenote/${id}`;
@@ -87,10 +89,11 @@ const NoteState = (props) => {
         "auth-token":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU4YzE3YmRmMzE2YjY5NTFiNWFkYjgzIn0sImlhdCI6MTcwMzY4MjU5NX0.MeNRmMiMGYgNAEoVXtJibGXGPT3SMh6JrpcYppMuj0I",
       },
-      body: JSON.stringify({ title, description, tag }),
     });
+    const json = await response.json();
+    console.log(json);
     // client side deletion
-    console.log("Deleting the node with id :" + id);
+    console.log("Deleting the node with id: " + id);
     const newNotes = notes.filter((note) => {
       return note._id !== id;
     });

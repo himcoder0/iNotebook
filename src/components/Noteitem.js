@@ -6,16 +6,11 @@ export default function Noteitem(props) {
   const context = useContext(notesContext);
 
   // destructuring notes from context and props
-  const { editNote, deleteNote } = context;
-  const { note } = props;
+  const { deleteNote } = context;
+  const { note, updateNote } = props;
 
   const handleDeleteNote = (e) => {
     deleteNote(note._id);
-  };
-
-  const handleUpdateNote = (e) => {
-    e.preventDefault();
-    editNote(note._id);
   };
 
   return (
@@ -30,7 +25,9 @@ export default function Noteitem(props) {
             ></i>
             <i
               className="fa-solid fa-pen-to-square mx-2"
-              onClick={handleUpdateNote}
+              onClick={() => {
+                updateNote(note);
+              }}
             ></i>
           </div>
           <p className="card-text">{note.description}</p>
