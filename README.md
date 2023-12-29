@@ -16,8 +16,8 @@ Welcome to the iNotebook Notes App! This web application is built using the MERN
 ### Frontend
 
 - React
-- Redux (for state management)
-- Axios (for API requests)
+- Context API (for state management)
+- ThunderClient (for API requests)
 - Bootstrap (for styling)
 
 ### Backend
