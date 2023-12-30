@@ -28,7 +28,9 @@ export default function Addnote(props) {
   return (
     <>
       <div className="container my-3">
-        <h2>Add a note</h2>
+        <div className="container my-3">
+          <h2>Add a note</h2>
+        </div>
         <div className="container my-3">
           <form>
             <div className="mb-3">
@@ -81,6 +83,7 @@ export default function Addnote(props) {
             </button>
           </form>
         </div>
+        <hr />
       </div>
     </>
   );

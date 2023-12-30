@@ -47,7 +47,6 @@ export default function Notes(props) {
   };
 
   const handleUpdateNote = (e) => {
-    console.log("updating the note : ", note);
     editNote(note.id, note.etitle, note.edescription, note.etag);
     refClose.current.click();
     props.showAlert("Note updated successfully", "success");
@@ -154,20 +153,22 @@ export default function Notes(props) {
         </div>
       </div>
 
-      <div className="row my-3">
-        <h3>Your notes</h3>
-        {notes.length === 0
-          ? "No notes to display"
-          : notes.map((note) => {
-              return (
-                <Noteitem
-                  key={note._id}
-                  updateNote={updateNote}
-                  note={note}
-                  showAlert={props.showAlert}
-                />
-              );
-            })}
+      <div className="container mx-2 " style={{ marginTop: "35px" }}>
+        <div className="row my-3">
+          <h3>Your notes</h3>
+          {notes.length === 0
+            ? "No notes to display"
+            : notes.map((note) => {
+                return (
+                  <Noteitem
+                    key={note._id}
+                    updateNote={updateNote}
+                    note={note}
+                    showAlert={props.showAlert}
+                  />
+                );
+              })}
+        </div>
       </div>
     </>
   );

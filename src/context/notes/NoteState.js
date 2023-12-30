@@ -87,7 +87,6 @@ const NoteState = (props) => {
     const json = await response.json();
     console.log(json);
     // client side deletion
-    console.log("Deleting the node with id: " + id);
     const newNotes = notes.filter((note) => {
       return note._id !== id;
     });
