@@ -34,7 +34,3 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
-## Acknowledgments
-
-Special thanks to the MERN stack and the open-source community for providing excellent tools and resources.
