@@ -17,7 +17,7 @@ Welcome to the iNotebook Notes App! This is a simple web application used to sto
 
 - React
 - Context API (for state management)
-- ThunderClient (for API requests)
+- ThunderClient (for API requests testing)
 - Bootstrap (for styling)
 
 ### Backend
