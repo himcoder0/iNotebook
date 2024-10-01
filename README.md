@@ -1,6 +1,6 @@
 # iNotebook Notes App
 
-Welcome to the iNotebook Notes App! This web application is built using the MERN stack (MongoDB, Express.js, React, and Node.js) and provides a simple yet powerful platform for users to manage their notes.
+Welcome to the iNotebook Notes App! This is a simple web application used to store your notes and is built using the MERN stack (MongoDB, Express.js, React, and Node.js) and provides a simple yet powerful platform for users to manage their notes.
 
 ## Features
 
